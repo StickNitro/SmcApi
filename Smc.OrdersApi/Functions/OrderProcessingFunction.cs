@@ -31,9 +31,9 @@ namespace Smc.OrdersApi.Functions
                 return new BadRequestObjectResult(new { Error = "Expected request body was invalid" });
             }
 
-            await this.paymentProcessorService.Process(inputModel);
+            var outputModel = await this.paymentProcessorService.ProcessPayment(inputModel);
 
-            return new OkObjectResult(null);
+            return new OkObjectResult(outputModel);
         }
     }
 }

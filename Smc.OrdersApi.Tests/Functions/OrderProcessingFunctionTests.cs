@@ -54,7 +54,7 @@ namespace Smc.OrdersApi.Tests.Functions
                 Type = ProductType.Physical
             };
 
-            this.mockPaymentProcessor.Setup(x => x.Process(It.IsAny<PaymentInputModel>()));
+            this.mockPaymentProcessor.Setup(x => x.ProcessPayment(It.IsAny<PaymentInputModel>()));
 
             var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
 
@@ -62,7 +62,7 @@ namespace Smc.OrdersApi.Tests.Functions
 
             result.ShouldBeOfType<OkObjectResult>();
 
-            this.mockPaymentProcessor.Verify(x => x.Process(It.Is<PaymentInputModel>(model =>
+            this.mockPaymentProcessor.Verify(x => x.ProcessPayment(It.Is<PaymentInputModel>(model =>
                 model.Name == "Mock Product" &&
                 model.Type == ProductType.Physical)));
         }

@@ -5,6 +5,6 @@ namespace Smc.OrdersApi.Business.Services
 {
     public interface IPaymentProcessorService
     {
-        Task Process(PaymentInputModel paymentModel);
+        Task<PaymentOutputModel> ProcessPayment(PaymentInputModel paymentModel);
     }
 }
