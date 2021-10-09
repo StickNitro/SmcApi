@@ -10,7 +10,7 @@ namespace Smc.OrdersApi.Business.Tests.Services
     public class MembershipPaymentRuleTests
     {
         [Fact]
-        public async Task Process_When_Type_Membership_Should_Return_NewMembership()
+        public async Task Process_When_Type_Membership_Should_Return_Membership()
         {
             var mockModel = new PaymentInputModel()
             {
@@ -27,7 +27,24 @@ namespace Smc.OrdersApi.Business.Tests.Services
         }
 
         [Fact]
-        public async Task Process_When_Type_NotMembership_Should_Return_Null()
+        public async Task Process_When_Type_MembershipUpgrade_Should_Return_Membership()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.MembershipUpgrade
+            };
+
+            var sut = new MembershipPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.Membership.ShouldNotBeNull();
+            result.Membership.Upgrade.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task Process_When_Type_NotMembershipOrMembershipUpgrade_Should_Return_Null()
         {
             var mockModel = new PaymentInputModel()
             {

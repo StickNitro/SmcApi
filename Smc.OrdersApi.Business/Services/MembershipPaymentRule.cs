@@ -1,7 +1,4 @@
 ﻿using Smc.OrdersApi.Business.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Smc.OrdersApi.Business.Services
@@ -13,13 +10,16 @@ namespace Smc.OrdersApi.Business.Services
             if (model is null)
                 return Task.FromResult<PaymentOutputModel>(null);
 
-            if (model.Type != ProductType.Membership)
+            if (model.Type != ProductType.Membership && model.Type != ProductType.MembershipUpgrade)
                 return Task.FromResult<PaymentOutputModel>(null);
 
             return Task.FromResult(
                 new PaymentOutputModel
                 {
-                    Membership = new Membership()
+                    Membership = new Membership
+                    {
+                        Upgrade = model.Type == ProductType.MembershipUpgrade
+                    }
                 });
         }
     }
