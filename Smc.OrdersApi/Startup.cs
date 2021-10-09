@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Smc.OrdersApi;
+using Smc.OrdersApi.Business.Services;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace Smc.OrdersApi
@@ -19,7 +20,9 @@ namespace Smc.OrdersApi
                         NullValueHandling = NullValueHandling.Ignore,
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     };
-                });
+                })
+                .AddTransient<IPaymentProcessorService, PaymentProcessorService>()
+                .AddScoped<IPaymentRule, PhysicalProductPaymentRule>();
         }
     }
 }
