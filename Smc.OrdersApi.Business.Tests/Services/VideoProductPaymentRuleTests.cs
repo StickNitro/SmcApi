@@ -15,7 +15,7 @@ namespace Smc.OrdersApi.Business.Tests.Services
             var mockModel = new PaymentInputModel()
             {
                 Type = ProductType.Video,
-                Name = "Leaning to Ski"
+                Name = "Learning to Ski"
             };
 
             var sut = new VideoRegulationPaymentRule();
@@ -33,7 +33,24 @@ namespace Smc.OrdersApi.Business.Tests.Services
         {
             var mockModel = new PaymentInputModel()
             {
-                Type = ProductType.Book
+                Type = ProductType.Book,
+                Name = "Learning to Ski"
+            };
+
+            var sut = new VideoRegulationPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldBeNull();
+        }
+
+        [Fact]
+        public async Task Process_When_Type_NotLearningToSki_Should_Return_Null()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.Video,
+                Name = "Mock Video Name"
             };
 
             var sut = new VideoRegulationPaymentRule();
