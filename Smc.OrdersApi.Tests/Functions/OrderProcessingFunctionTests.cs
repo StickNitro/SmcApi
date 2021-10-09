@@ -22,7 +22,7 @@ namespace Smc.OrdersApi.Tests.Functions
         [Fact]
         public async Task ProcessOrder_Should_ReturnOkResult()
         {
-            var sut = new OrderProcessingFunction();
+            var sut = new OrderProcessingFunction(null);
 
             var result = await sut.ProcessOrder(this.CreateMockRequest());
 
