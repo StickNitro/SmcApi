@@ -18,7 +18,8 @@ namespace Smc.OrdersApi.Business.Services
                 {
                     Membership = new Membership
                     {
-                        Upgrade = model.Type == ProductType.MembershipUpgrade
+                        Upgrade = model.Type == ProductType.MembershipUpgrade,
+                        SendNotification = true
                     }
                 });
         }

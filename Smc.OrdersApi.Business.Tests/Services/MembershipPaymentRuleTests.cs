@@ -10,6 +10,23 @@ namespace Smc.OrdersApi.Business.Tests.Services
     public class MembershipPaymentRuleTests
     {
         [Fact]
+        public async Task Process_When_Type_Membership_Should_Return_SendNotificationTrue()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.Membership
+            };
+
+            var sut = new MembershipPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.Membership.ShouldNotBeNull();
+            result.Membership.SendNotification.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task Process_When_Type_Membership_Should_Return_Membership()
         {
             var mockModel = new PaymentInputModel()

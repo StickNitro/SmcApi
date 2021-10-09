@@ -18,6 +18,7 @@ namespace Smc.OrdersApi.Business.Domain
     public class Membership
     {
         public bool Upgrade { get; set; }
+        public bool SendNotification { get; set; }
     }
 
     public enum PackingSlipType
