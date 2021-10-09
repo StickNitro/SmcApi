@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Shouldly;
+using Smc.OrdersApi.Business.Domain;
+using Smc.OrdersApi.Business.Services;
 using Smc.OrdersApi.Functions;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +23,58 @@ namespace Smc.OrdersApi.Tests.Functions
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
+        private readonly Mock<IPaymentProcessorService> mockPaymentProcessor = new Mock<IPaymentProcessorService>();
+
         [Fact]
         public async Task ProcessOrder_Should_ReturnOkResult()
         {
-            var sut = new OrderProcessingFunction(null);
+            var mockInputModel = new PaymentInputModel
+            {
+                Id = Guid.NewGuid(),
+                OrderId = Guid.NewGuid(),
+                Name = "Mock Product",
+                Type = ProductType.Physical
+            };
+
+            var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
+
+            var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel));
+
+            result.ShouldBeOfType<OkResult>();
+        }
+
+        [Fact]
+        public async Task ProcessOrder_Should_CallPaymentProcessor_WithInputModel()
+        {
+            var mockInputModel = new PaymentInputModel
+            {
+                Id = Guid.NewGuid(),
+                OrderId = Guid.NewGuid(),
+                Name = "Mock Product",
+                Type = ProductType.Physical
+            };
+
+            this.mockPaymentProcessor.Setup(x => x.Process(It.IsAny<PaymentInputModel>()));
+
+            var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
+
+            var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel));
+
+            result.ShouldBeOfType<OkResult>();
+
+            this.mockPaymentProcessor.Verify(x => x.Process(It.Is<PaymentInputModel>(model =>
+                model.Name == "Mock Product" &&
+                model.Type == ProductType.Physical)));
+        }
+
+        [Fact]
+        public async Task ProcessOrder_WhenInputModelNull_Should_ReturnBadRequest()
+        {
+            var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
 
             var result = await sut.ProcessOrder(this.CreateMockRequest());
 
-            result.ShouldBeOfType<OkResult>();
+            result.ShouldBeOfType<BadRequestObjectResult>();
         }
 
         private HttpRequest CreateMockRequest(object body = null)
