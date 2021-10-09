@@ -13,6 +13,7 @@ namespace Smc.OrdersApi.Business.Domain
     {
         public Guid Id { get; set; }
         public PackingSlipType Type { get; set; }
+        public bool IncludeFirstAidVideo { get; set; }
     }
 
     public class Membership
