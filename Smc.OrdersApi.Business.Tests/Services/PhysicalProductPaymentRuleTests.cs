@@ -27,6 +27,22 @@ namespace Smc.OrdersApi.Business.Tests.Services
         }
 
         [Fact]
+        public async Task Process_When_Type_PhysicalProduct_Should_Return_GenerateCommissionPayment()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.Physical
+            };
+
+            var sut = new PhysicalProductPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.GenerateCommissionPayment.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task Process_When_Type_NotPhysicalProduct_Should_Return_Null()
         {
             var mockModel = new PaymentInputModel()

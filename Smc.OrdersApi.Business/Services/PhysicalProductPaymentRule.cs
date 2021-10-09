@@ -20,7 +20,8 @@ namespace Smc.OrdersApi.Business.Services
                 PackingSlips = new List<PackingSlip>()
                 {
                     new PackingSlip {Id = Guid.NewGuid(), Type = PackingSlipType.Shipping }
-                }
+                },
+                GenerateCommissionPayment = true
             });
         }
     }

@@ -29,6 +29,23 @@ namespace Smc.OrdersApi.Business.Tests.Services
         }
 
         [Fact]
+        public async Task Process_When_Type_VideoProduct_Should_Not_GenerateCommissionPayment()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.Video,
+                Name = "Learning to Ski"
+            };
+
+            var sut = new VideoRegulationPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.GenerateCommissionPayment.ShouldBeFalse();
+        }
+
+        [Fact]
         public async Task Process_When_Type_NotVideoProduct_Should_Return_Null()
         {
             var mockModel = new PaymentInputModel()

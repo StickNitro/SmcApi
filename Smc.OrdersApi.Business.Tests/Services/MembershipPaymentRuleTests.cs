@@ -10,6 +10,38 @@ namespace Smc.OrdersApi.Business.Tests.Services
     public class MembershipPaymentRuleTests
     {
         [Fact]
+        public async Task Process_When_Type_Membership_Should_Not_GenerateComissionPayment()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.Membership
+            };
+
+            var sut = new MembershipPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.GenerateCommissionPayment.ShouldBeFalse();
+        }
+
+        [Fact]
+        public async Task Process_When_Type_MembershipUpgrade_Should_Not_GenerateComissionPayment()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.MembershipUpgrade
+            };
+
+            var sut = new MembershipPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.GenerateCommissionPayment.ShouldBeFalse();
+        }
+
+        [Fact]
         public async Task Process_When_Type_Membership_Should_Return_SendNotificationTrue()
         {
             var mockModel = new PaymentInputModel()

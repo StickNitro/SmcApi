@@ -28,6 +28,22 @@ namespace Smc.OrdersApi.Business.Tests.Services
         }
 
         [Fact]
+        public async Task Process_When_Type_BookProduct_Should_Return_GenerateCommissionPayment()
+        {
+            var mockModel = new PaymentInputModel()
+            {
+                Type = ProductType.Book
+            };
+
+            var sut = new BookProductPaymentRule();
+
+            var result = await sut.Process(mockModel);
+
+            result.ShouldNotBeNull();
+            result.GenerateCommissionPayment.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task Process_When_Type_NotBookProduct_Should_Return_Null()
         {
             var mockModel = new PaymentInputModel()
