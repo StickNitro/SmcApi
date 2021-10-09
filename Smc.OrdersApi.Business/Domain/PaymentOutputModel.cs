@@ -5,7 +5,7 @@ namespace Smc.OrdersApi.Business.Domain
 {
     public class PaymentOutputModel
     {
-        public IEnumerable<PackingSlip> PackingSlips { get; set; } = new List<PackingSlip>();
+        public IEnumerable<PackingSlip> PackingSlips { get; set; }
         public Membership Membership { get; set; }
         public bool GenerateCommissionPayment { get; set; }
     }

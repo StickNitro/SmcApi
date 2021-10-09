@@ -14,9 +14,19 @@ namespace Smc.OrdersApi.Business.Services
             this.paymentRules = paymentRules;
         }
 
-        public Task<PaymentOutputModel> ProcessPayment(PaymentInputModel paymentModel)
+        public async Task<PaymentOutputModel> ProcessPayment(PaymentInputModel paymentModel)
         {
-            throw new NotImplementedException();
+            if (paymentModel is null)
+                throw new ArgumentNullException(nameof(paymentModel));
+
+            foreach (var paymentRule in this.paymentRules)
+            {
+                var result = await paymentRule.Process(paymentModel);
+                if (result != null)
+                    return result;
+            }
+
+            return new PaymentOutputModel();
         }
     }
 }

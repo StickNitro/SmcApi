@@ -22,7 +22,10 @@ namespace Smc.OrdersApi
                     };
                 })
                 .AddTransient<IPaymentProcessorService, PaymentProcessorService>()
-                .AddScoped<IPaymentRule, PhysicalProductPaymentRule>();
+                .AddScoped<IPaymentRule, PhysicalProductPaymentRule>()
+                .AddScoped<IPaymentRule, BookProductPaymentRule>()
+                .AddScoped<IPaymentRule, VideoRegulationPaymentRule>()
+                .AddScoped<IPaymentRule, MembershipPaymentRule>();
         }
     }
 }
