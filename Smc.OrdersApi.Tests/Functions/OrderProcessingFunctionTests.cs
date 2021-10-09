@@ -40,7 +40,7 @@ namespace Smc.OrdersApi.Tests.Functions
 
             var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel));
 
-            result.ShouldBeOfType<OkResult>();
+            result.ShouldBeOfType<OkObjectResult>();
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace Smc.OrdersApi.Tests.Functions
 
             var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel));
 
-            result.ShouldBeOfType<OkResult>();
+            result.ShouldBeOfType<OkObjectResult>();
 
             this.mockPaymentProcessor.Verify(x => x.Process(It.Is<PaymentInputModel>(model =>
                 model.Name == "Mock Product" &&

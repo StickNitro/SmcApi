@@ -33,7 +33,7 @@ namespace Smc.OrdersApi.Functions
 
             await this.paymentProcessorService.Process(inputModel);
 
-            return new OkResult();
+            return new OkObjectResult(null);
         }
     }
 }
