@@ -27,7 +27,7 @@ namespace Smc.OrdersApi.Business.Tests.Services
         }
 
         [Fact]
-        public async Task Process_When_Type_NotPhysicalProduct_Should_Return_CompletedTask()
+        public async Task Process_When_Type_NotPhysicalProduct_Should_Return_Null()
         {
             var mockModel = new PaymentInputModel()
             {
@@ -42,13 +42,13 @@ namespace Smc.OrdersApi.Business.Tests.Services
         }
 
         [Fact]
-        public async Task Process_When_ModelIsNull_Should_Return_CompletedTask()
+        public async Task Process_When_ModelIsNull_Should_Return_Null()
         {
             var sut = new PhysicalProductPaymentRule();
 
             var result = await sut.Process(null);
 
-            result.ShouldBeNull();
+            Assert.Null(result);
         }
     }
 }
