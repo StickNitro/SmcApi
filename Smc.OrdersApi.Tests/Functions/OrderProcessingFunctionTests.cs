@@ -38,7 +38,7 @@ namespace Smc.OrdersApi.Tests.Functions
 
             var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
 
-            var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel));
+            var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel), mockInputModel.OrderId);
 
             result.ShouldBeOfType<OkObjectResult>();
         }
@@ -58,7 +58,7 @@ namespace Smc.OrdersApi.Tests.Functions
 
             var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
 
-            var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel));
+            var result = await sut.ProcessOrder(this.CreateMockRequest(mockInputModel), mockInputModel.OrderId);
 
             result.ShouldBeOfType<OkObjectResult>();
 
@@ -72,7 +72,7 @@ namespace Smc.OrdersApi.Tests.Functions
         {
             var sut = new OrderProcessingFunction(this.mockPaymentProcessor.Object, this.jsonSettings);
 
-            var result = await sut.ProcessOrder(this.CreateMockRequest());
+            var result = await sut.ProcessOrder(this.CreateMockRequest(), Guid.NewGuid());
 
             result.ShouldBeOfType<BadRequestObjectResult>();
         }

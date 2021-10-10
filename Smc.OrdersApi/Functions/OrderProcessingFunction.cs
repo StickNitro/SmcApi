@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Smc.OrdersApi.Business.Domain;
 using Smc.OrdersApi.Business.Extensions;
 using Smc.OrdersApi.Business.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace Smc.OrdersApi.Functions
@@ -23,7 +24,8 @@ namespace Smc.OrdersApi.Functions
 
         [FunctionName("ProcessOrder")]
         public async Task<IActionResult> ProcessOrder(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "order/{orderId}/payment")] HttpRequest request)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "order/{orderId:guid}/payment")] HttpRequest request,
+            Guid orderId)
         {
             var inputModel = await request.DeserializeBody<PaymentInputModel>(this.serializerSettings);
             if (inputModel is null)
