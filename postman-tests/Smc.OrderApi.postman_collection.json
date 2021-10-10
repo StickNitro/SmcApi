@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "6e62ce4b-97fe-46ad-905f-0f8ad59cb225",
+		"name": "Smc.OrderApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Book Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test('Response has expected fields', () => {\r",
+							"    pm.expect(jsonData.packingSlips.length).to.equal(2);\r",
+							"    pm.expect(jsonData.packingSlips[0].type).to.equal(0);\r",
+							"    pm.expect(jsonData.packingSlips[1].type).to.equal(1);\r",
+							"    pm.expect(jsonData.generateCommissionPayment).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"0d813f96-0795-40a6-81dc-c98883dbc9a0\",\r\n    \"orderId\": \"b1e90f17-7446-473f-9693-2c078a957ec9\",\r\n    \"type\": \"Book\",\r\n    \"name\": \"Example Book\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7071/api/order/b1e90f17-7446-473f-9693-2c078a957ec9/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7071",
+					"path": [
+						"api",
+						"order",
+						"b1e90f17-7446-473f-9693-2c078a957ec9",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
